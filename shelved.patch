@@ -1,0 +1,40 @@
+Index: horoscope/templates/horoscope/info_zodiac.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/horoscope/templates/horoscope/info_zodiac.html b/horoscope/templates/horoscope/info_zodiac.html
+new file mode 100644
+--- /dev/null	(date 1715462509638)
++++ b/horoscope/templates/horoscope/info_zodiac.html	(date 1715462509638)
+@@ -0,0 +1,11 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>Title</title>
++</head>
++<body>
++<h1>Приложение гороскоп</h1>
++<р2>Близнецы - третий знак зодиака, планета Меркурий (с 22 мая по 21 июня)</р2>
++</body>
++</html>
+\ No newline at end of file
+Index: horoscope/views.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.shortcuts import render\r\nfrom django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect\r\nfrom django.urls import reverse\r\n# Create your views here.\r\n\r\nzodiac_dict = {\r\n    'aries': 'Овен - первый знак зодиака, планета Марс (с 21 марта по 20 апреля).',\r\n    'taurus': 'Телец - второй знак зодиака, планета Венера (с 21 апреля по 21 мая).',\r\n    'gemini': 'Близнецы - третий знак зодиака, планета Меркурий (с 22 мая по 21 июня).',\r\n    'cancer': 'Рак - четвёртый знак зодиака, Луна (с 22 июня по 22 июля).',\r\n    'leo': ' Лев - пятый знак зодиака, солнце (с 23 июля по 21 августа).',\r\n    'virgo': 'Дева - шестой знак зодиака, планета Меркурий (с 22 августа по 23 сентября).',\r\n    'libra': 'Весы - седьмой знак зодиака, планета Венера (с 24 сентября по 23 октября).',\r\n    'scorpio': 'Скорпион - восьмой знак зодиака, планета Марс (с 24 октября по 22 ноября).',\r\n    'sagittarius': 'Стрелец - девятый знак зодиака, планета Юпитер (с 23 ноября по 22 декабря).',\r\n    'capricorn': 'Козерог - десятый знак зодиака, планета Сатурн (с 23 декабря по 20 января).',\r\n    'aquarius': 'Водолей - одиннадцатый знак зодиака, планеты Уран и Сатурн (с 21 января по 19 февраля).',\r\n    'pisces': 'Рыбы - двенадцатый знак зодиака, планеты Юпитер (с 20 февраля по 20 марта).',\r\n}\r\n\r\n\r\ndef get_info_about_sign_zodiac(request, sign_zodiac: str):\r\n    description = zodiac_dict.get(sign_zodiac, None)\r\n    if description:\r\n        return HttpResponse(description)\r\n    else:\r\n        return HttpResponseNotFound(f\"Неизвестный знак зодиака - {sign_zodiac}\")\r\n\r\n\r\ndef get_info_about_sign_zodiac_by_number(request, sign_zodiac: int):\r\n    zodiacs = list(zodiac_dict)\r\n    if sign_zodiac > len(zodiacs):\r\n        return HttpResponseNotFound(f\"Неправильный порядковый номер зодиака - {sign_zodiac}\")\r\n    name_zodiac = zodiacs[sign_zodiac-1]\r\n    redirect_url = reverse('horoscope-name', args=(name_zodiac, ))\r\n    return HttpResponseRedirect(redirect_url)\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/horoscope/views.py b/horoscope/views.py
+--- a/horoscope/views.py	(revision f8b50ecb5b97778d2518673eb399775247e18ef6)
++++ b/horoscope/views.py	(date 1715463764332)
+@@ -27,6 +27,7 @@
+         return HttpResponseNotFound(f"Неизвестный знак зодиака - {sign_zodiac}")
+ 
+ 
++
+ def get_info_about_sign_zodiac_by_number(request, sign_zodiac: int):
+     zodiacs = list(zodiac_dict)
+     if sign_zodiac > len(zodiacs):
